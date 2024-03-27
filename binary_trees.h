@@ -1,60 +1,65 @@
-#ifndef _BINARY_TREES_H_
-#define _BINARY_TREES_H_
+#ifndef BINARY_TREES_H
+#define BINARY_TREES_H
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Data structures */
+
 /**
  * struct binary_tree_s - Binary tree node
- *
  * @n: Integer stored in the node
  * @parent: Pointer to the parent node
  * @left: Pointer to the left child node
  * @right: Pointer to the right child node
  */
-typedef struct binary_tree_s
+struct binary_tree_s
 {
 	int n;
 	struct binary_tree_s *parent;
 	struct binary_tree_s *left;
 	struct binary_tree_s *right;
-} binary_tree_t;
+};
+typedef struct binary_tree_s binary_tree_t;
 typedef struct binary_tree_s bst_t;
 typedef struct binary_tree_s avl_t;
 typedef struct binary_tree_s heap_t;
 
 /**
- * enum rb_color_e - Possible color of a Red-Black tree
- *
- * @RED: 0 -> Red node
- * @BLACK: 1 -> Black node
+ * struct levelorder_queue_s - Level order traversal queue.
+ * @node: A node of a binary tree.
+ * @next: The next node to traverse to in the binary tree.
  */
-typedef enum rb_color_e
+typedef struct levelorder_queue_s
 {
-	RED = 0,
-	BLACK
-} rb_color_t;
+	binary_tree_t *node;
+	struct levelorder_queue_s *next;
+} levelorder_queue_t;
 
-/**
- * struct rb_tree_s - Red-Black tree node structure
- *
- * @n: Integer stored in the node
- * @parent: Pointer to the parent node
- * @left: Pointer to the left child node
- * @right: Pointer to the right child node
- * @color: Color of the node (RED or BLACK)
- */
-typedef struct rb_tree_s
-{
-	int n;
-	struct rb_tree_s *parent;
-	struct rb_tree_s *left;
-	struct rb_tree_s *right;
-	rb_color_t color;
-} rb_tree_t;
-
+/* Printing helper function */
 void binary_tree_print(const binary_tree_t *);
-void rb_tree_print(const rb_tree_t *);
-binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 
-#endif /* _BINARY_TREES_H_ */
+/* Task function prototypes */
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
+binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value);
+binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value);
+void binary_tree_delete(binary_tree_t *tree);
+int binary_tree_is_leaf(const binary_tree_t *node);
+int binary_tree_is_root(const binary_tree_t *node);
+void binary_tree_preorder(const binary_tree_t *tree, void (*func)(int));
+void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int));
+void binary_tree_postorder(const binary_tree_t *tree, void (*func)(int));
+size_t binary_tree_height(const binary_tree_t *tree);
+size_t binary_tree_depth(const binary_tree_t *tree);
+size_t binary_tree_size(const binary_tree_t *tree);
+size_t binary_tree_leaves(const binary_tree_t *tree);
+size_t binary_tree_nodes(const binary_tree_t *tree);
+int binary_tree_balance(const binary_tree_t *tree);
+int binary_tree_is_full(const binary_tree_t *tree);
+int binary_tree_is_perfect(const binary_tree_t *tree);
+binary_tree_t *binary_tree_sibling(binary_tree_t *node);
+binary_tree_t *binary_tree_uncle(binary_tree_t *node);
+
+#endif /* BINARY_TREES_H */
